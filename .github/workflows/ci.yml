@@ -1,0 +1,53 @@
+name: checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: starter_test
+          POSTGRES_USER: starter
+          POSTGRES_PASSWORD: ci-only-password
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U starter -d starter_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      APP_ENV: testing
+      APP_DEBUG: 'false'
+      DB_CONNECTION: pgsql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_DATABASE: starter_test
+      DB_USERNAME: starter
+      DB_PASSWORD: ci-only-password
+      SESSION_DRIVER: array
+      CACHE_STORE: array
+      QUEUE_CONNECTION: sync
+      MAIL_MAILER: array
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_pgsql, mbstring, intl, zip
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: composer install --no-interaction --prefer-dist
+      - run: npm ci
+      - run: cp .env.example .env
+      - run: php artisan key:generate
+      - run: composer lint
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: composer test
+      - run: npm run build
