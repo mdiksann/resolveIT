@@ -30,7 +30,7 @@ class RouteGuardTest extends TestCase
         foreach ([null, ...Role::cases()] as $role) {
             foreach (['/dashboard', '/admin', '/settings/profile'] as $path) {
                 $status = $role === null ? 302 : match ($path) {
-                    '/dashboard' => $role === Role::Employee ? 403 : 200,
+                    '/dashboard' => $role === Role::Employee ? 302 : 200,
                     '/admin' => $role === Role::Admin ? 302 : 403,
                     default => 200,
                 };

@@ -17,6 +17,8 @@ export default function AppLayout({ title, children }: { title: string; children
     { href: '/tickets/create', label: 'New ticket' },
     ...(auth.can.viewAnyTicket ? [{ href: '/dashboard', label: 'Dashboard' }] : []),
     { href: '/settings/profile', label: 'Profile' },
+    ...(auth.can.manageCategories ? [{ href: '/admin/categories', label: 'Categories' }] : []),
+    ...(auth.can.managePriorities ? [{ href: '/admin/priorities', label: 'Priorities' }] : []),
     ...(auth.can.manageUsers ? [{ href: '/admin/users', label: 'Users' }] : []),
   ];
   return (

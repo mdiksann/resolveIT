@@ -72,7 +72,7 @@ class UserRoleManagementTest extends TestCase
     {
         $admin = User::factory()->create(['role' => Role::Admin]);
         $target = User::factory()->create();
-        $this->actingAs($target)->get('/dashboard')->assertForbidden();
+        $this->actingAs($target)->get('/dashboard')->assertRedirect('/tickets');
         Log::shouldReceive('info')->once()->with('User role changed.', [
             'actor_id' => $admin->id, 'user_id' => $target->id,
             'from' => Role::Employee->value, 'to' => Role::Agent->value,
@@ -93,7 +93,7 @@ class UserRoleManagementTest extends TestCase
         $this->assertSame(Role::Employee, $other->fresh()->role);
         $this->assertSame(1, User::where('role', Role::Admin)->count());
         $this->actingAs($other->fresh())->get('/admin/users')->assertForbidden();
-        $this->get('/dashboard')->assertForbidden();
+        $this->get('/dashboard')->assertRedirect('/tickets');
     }
 
     public function test_self_demotion_is_validation_error_with_one_or_multiple_admins(): void

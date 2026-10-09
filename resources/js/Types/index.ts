@@ -19,6 +19,7 @@ export interface User {
 export interface SharedProps {
   [key: string]: unknown;
   appName: string;
+  timeZone: string;
   auth: {
     user: User | null;
     canAccessAdmin: boolean;
@@ -136,4 +137,31 @@ export interface TicketActivity {
   actor: CategoryOption | null;
   created_at: string;
   relative_time: string;
+}
+
+export interface AdminCategory extends CategoryOption {
+  is_active: boolean;
+}
+
+export interface AdminPriority extends PriorityOption {
+  sla_hours: number;
+  is_active: boolean;
+  is_default: boolean;
+}
+
+export interface DashboardAssignment {
+  id: number;
+  number: string;
+  title: string;
+  status: TicketStatus;
+  priority: PriorityOption;
+  due_at: string;
+  overdue: boolean;
+}
+export interface DashboardProps {
+  metrics: { open: number; unassigned: number; overdue: number; resolved_last_7_days: number };
+  byStatus: (StatusOption & { total: number })[];
+  byPriority: (PriorityOption & { total: number })[];
+  assignments: Paginated<DashboardAssignment>;
+  generatedAt: string;
 }

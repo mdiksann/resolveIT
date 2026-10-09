@@ -2,9 +2,11 @@ import { useEffect, useRef } from 'react';
 export function FormErrors({
   errors,
   failure,
+  fieldIds,
 }: {
   errors: Partial<Record<string, string>>;
   failure?: string;
+  fieldIds?: Record<string, string>;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const entries = Object.entries(errors).filter((entry): entry is [string, string] => !!entry[1]);
@@ -23,7 +25,7 @@ export function FormErrors({
       <ul>
         {entries.map(([field, error]) => (
           <li key={field}>
-            <a className="underline" href={`#${field}`}>
+            <a className="underline" href={`#${fieldIds?.[field] ?? field}`}>
               {error}
             </a>
           </li>

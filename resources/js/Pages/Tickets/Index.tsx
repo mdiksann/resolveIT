@@ -1,5 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
+import { DueDate } from '../../Components/Tickets/DueDate';
 import AppLayout from '../../Layouts/AppLayout';
 import { FormField } from '../../Components/FormField';
 import { FormErrors } from '../../Components/FormErrors';
@@ -14,6 +15,7 @@ import type {
   TicketSummary,
 } from '../../Types';
 type Props = {
+  generatedAt: string;
   tickets: Paginated<TicketSummary>;
   filters: TicketFilters;
   priorities: PriorityOption[];
@@ -24,6 +26,7 @@ type Props = {
 };
 export default function Index({
   tickets,
+  generatedAt,
   filters,
   priorities,
   categories,
@@ -212,10 +215,11 @@ export default function Index({
                     <td className="px-4 py-3">{ticket.requester?.name ?? 'Deleted user'}</td>
                     <td className="px-4 py-3">{ticket.assignee?.name ?? 'Unassigned'}</td>
                     <td className="px-4 py-3">
-                      <time dateTime={ticket.due_at}>
-                        {new Date(ticket.due_at).toLocaleString()}
-                      </time>
-                      {ticket.overdue && <span className="block text-destructive">⚠ Overdue</span>}
+                      <DueDate
+                        dueAt={ticket.due_at}
+                        referenceTime={generatedAt}
+                        overdue={ticket.overdue}
+                      />
                     </td>
                   </tr>
                 ))}

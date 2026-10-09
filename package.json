@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:unit": "node --experimental-strip-types tests/Unit/dateFormatting.test.ts"
   },
   "dependencies": {
     "@inertiajs/react": "^3.0.0",

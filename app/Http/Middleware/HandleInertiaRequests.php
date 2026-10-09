@@ -18,6 +18,7 @@ class HandleInertiaRequests extends Middleware
 
         return [...parent::share($request),
             'appName' => config('app.name'),
+            'timeZone' => config('app.timezone'),
             'auth' => [
                 'user' => $user?->only('id', 'name', 'role'),
                 'canAccessAdmin' => $user?->can('access-admin') ?? false,

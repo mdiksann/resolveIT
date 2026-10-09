@@ -6,6 +6,8 @@ use App\Enums\Role;
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
@@ -43,9 +45,11 @@ class RoleContextTest extends TestCase
 
     public function test_local_seeder_is_idempotent_and_does_not_overwrite_existing_accounts(): void
     {
+        Storage::fake('local');
+        Notification::fake();
         $this->app->instance('env', 'local');
         $this->app->make(DatabaseSeeder::class)->run();
-        $this->assertDatabaseCount('users', 3);
+        $this->assertDatabaseCount('users', 8);
         foreach (['employee' => Role::Employee, 'agent' => Role::Agent, 'admin' => Role::Admin] as $name => $role) {
             $this->assertDatabaseHas('users', ['email' => $name.'@example.test', 'role' => $role->value]);
         }
@@ -56,7 +60,7 @@ class RoleContextTest extends TestCase
         $employee->save();
         $password = $employee->getRawOriginal('password');
         $this->app->make(DatabaseSeeder::class)->run();
-        $this->assertDatabaseCount('users', 3);
+        $this->assertDatabaseCount('users', 8);
         $this->assertSame('Existing name', $employee->fresh()->name);
         $this->assertSame($password, $employee->fresh()->getRawOriginal('password'));
         $this->assertSame(Role::Agent, $employee->fresh()->role);

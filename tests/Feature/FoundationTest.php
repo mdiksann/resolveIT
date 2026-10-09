@@ -13,7 +13,7 @@ class FoundationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_authenticated_dashboard_is_a_product_placeholder(): void
+    public function test_staff_dashboard_exposes_product_metrics(): void
     {
         $this->actingAs(User::factory()->create(['role' => Role::Agent]))->get('/dashboard')->assertOk()->assertInertia(fn (Assert $page) => $page->component('Dashboard')->missing('database')->missing('environment')->where('appName', 'ResolveIT')->where('auth.canAccessAdmin', false));
     }

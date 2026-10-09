@@ -55,6 +55,7 @@ class TicketController extends Controller
         };
 
         return Inertia::render('Tickets/Index', [
+            'generatedAt' => now()->toISOString(),
             'tickets' => $query->paginate(20)->withQueryString()->through(fn (Ticket $ticket) => $this->ticketData($ticket)),
             'filters' => [...$filters, 'mine' => $request->boolean('mine'), 'overdue' => $request->boolean('overdue')],
             'statuses' => array_map(fn (TicketStatus $status) => ['value' => $status->value, 'label' => $status->label()], TicketStatus::cases()),
@@ -196,6 +197,7 @@ class TicketController extends Controller
         $ticket->load(['requester:id,name', 'assignee:id,name', 'category:id,name', 'priority:id,name,rank']);
 
         return Inertia::render('Tickets/Show', [
+            'generatedAt' => now()->toISOString(),
             'ticket' => [...$this->ticketData($ticket), ...$ticket->only(['description', 'resolved_at', 'closed_at'])],
             'priorities' => Priority::orderBy('rank')->orderBy('id')->get(['id', 'name', 'rank']),
             'assignees' => Gate::allows('assign', $ticket) ? User::whereIn('role', [Role::Agent, Role::Admin])->orderBy('name')->get(['id', 'name']) : [],

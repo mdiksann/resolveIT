@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PriorityController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketAttachmentController;
 use App\Http\Controllers\TicketCommentController;
@@ -30,11 +32,20 @@ Route::middleware('auth')->group(function (): void {
     Route::delete('/tickets/{ticket}/assignment', [TicketController::class, 'unassign'])->name('tickets.unassign');
     Route::patch('/tickets/{ticket}/status', [TicketController::class, 'transition'])->name('tickets.transition');
     Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
-    Route::get('/dashboard', DashboardController::class)->middleware('can:manage-tickets')->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::prefix('admin')->name('admin.')->middleware('can:administer')->group(function (): void {
         Route::get('/', fn () => redirect()->route('admin.users.index'))->name('index');
+        Route::get('/priorities', [PriorityController::class, 'index'])->name('priorities.index');
+        Route::post('/priorities', [PriorityController::class, 'store'])->name('priorities.store');
+        Route::patch('/priorities/{priority}', [PriorityController::class, 'update'])->name('priorities.update');
+        Route::patch('/priorities/{priority}/deactivate', [PriorityController::class, 'deactivate'])->name('priorities.deactivate');
+        Route::patch('/priorities/{priority}/default', [PriorityController::class, 'setDefault'])->name('priorities.default');
+        Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+        Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+        Route::patch('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+        Route::patch('/categories/{category}/deactivate', [CategoryController::class, 'deactivate'])->name('categories.deactivate');
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::patch('/users/{user}/role', [UserController::class, 'updateRole'])->name('users.update-role');
     });
