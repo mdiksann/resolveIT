@@ -25,7 +25,7 @@ class AuthenticationTest extends TestCase
         $this->post('/register', ['name' => '  New User  ', 'email' => 'NEW@example.test', 'password' => 'long-test-password', 'password_confirmation' => 'long-test-password', 'role' => 'ADMIN'])->assertRedirect('/dashboard');
         $user = User::where('email', 'new@example.test')->firstOrFail();
         $this->assertSame('New User', $user->name);
-        $this->assertSame(Role::User, $user->role);
+        $this->assertSame(Role::Employee, $user->role);
         $this->assertTrue(Hash::check('long-test-password', $user->password));
         $this->assertAuthenticatedAs($user);
     }

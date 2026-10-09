@@ -1,8 +1,8 @@
 {
   "$schema": "https://getcomposer.org/schema.json",
-  "name": "starter/laravel-fullstack-starter",
+  "name": "resolveit/resolveit",
   "type": "project",
-  "description": "Reusable Laravel, Inertia and React engineering foundation.",
+  "description": "Internal IT helpdesk and service desk ticketing system.",
   "keywords": [
     "laravel",
     "framework"

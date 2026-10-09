@@ -13,9 +13,9 @@ class FoundationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_authenticated_dashboard_checks_database(): void
+    public function test_authenticated_dashboard_is_a_product_placeholder(): void
     {
-        $this->actingAs(User::factory()->create())->get('/dashboard')->assertOk()->assertInertia(fn (Assert $page) => $page->component('Dashboard')->where('database', 'Connected')->where('auth.canAccessAdmin', false));
+        $this->actingAs(User::factory()->create())->get('/dashboard')->assertOk()->assertInertia(fn (Assert $page) => $page->component('Dashboard')->missing('database')->missing('environment')->where('appName', 'ResolveIT')->where('auth.canAccessAdmin', false));
     }
 
     public function test_regular_users_cannot_access_admin(): void
@@ -36,7 +36,7 @@ class FoundationTest extends TestCase
         $this->actingAs($user)->patch('/settings/profile', ['name' => ' Updated ', 'email' => 'UPDATED@example.test', 'role' => 'ADMIN'])->assertSessionHas('success');
         $this->assertSame('Updated', $user->fresh()->name);
         $this->assertSame('updated@example.test', $user->fresh()->email);
-        $this->assertSame(Role::User, $user->fresh()->role);
+        $this->assertSame(Role::Employee, $user->fresh()->role);
         $this->patch('/settings/profile', ['name' => '', 'email' => 'bad'])->assertSessionHasErrors(['name', 'email']);
     }
 

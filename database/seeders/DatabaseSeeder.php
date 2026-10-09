@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
         if (! app()->environment('local')) {
             return;
         }
-        foreach (['admin' => Role::Admin, 'user' => Role::User] as $name => $role) {
+        foreach (['admin' => Role::Admin, 'user' => Role::Employee] as $name => $role) {
             User::firstOrCreate(['email' => $name.'@example.test'], [
                 'name' => ucfirst($name),
                 'password' => 'local-password',
