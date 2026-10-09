@@ -14,7 +14,7 @@ use Illuminate\Notifications\Notifiable;
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    protected $attributes = ['role' => 'USER'];
+    protected $attributes = ['role' => Role::Employee->value];
 
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;

@@ -1,4 +1,4 @@
-name: resolveIT
+name: resolveit
 services:
   app:
     build: .
@@ -17,8 +17,8 @@ services:
   postgres:
     image: postgres:17-bookworm
     environment:
-      POSTGRES_DB: ${DB_DATABASE:-resolveIT}
-      POSTGRES_USER: ${DB_USERNAME:-starter}
+      POSTGRES_DB: ${DB_DATABASE:-resolveit}
+      POSTGRES_USER: ${DB_USERNAME:-resolveit}
       POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
     ports:
       - '127.0.0.1:${DB_FORWARD_PORT:-5432}:5432'

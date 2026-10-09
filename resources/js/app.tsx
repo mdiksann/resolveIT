@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import type { ComponentType } from 'react';
 const pages = import.meta.glob<{ default: ComponentType }>('./Pages/**/*.tsx');
 createInertiaApp({
-  title: (title) => `${title} · ${import.meta.env.VITE_APP_NAME || 'Laravel Fullstack Starter'}`,
+  title: (title) => `${title} · ${import.meta.env.VITE_APP_NAME || 'ResolveIT'}`,
   resolve: async (name) => {
     const load = pages[`./Pages/${name}.tsx`];
     if (!load) throw new Error(`Unknown Inertia page: ${name}`);
