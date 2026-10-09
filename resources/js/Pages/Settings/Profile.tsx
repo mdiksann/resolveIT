@@ -1,11 +1,9 @@
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
 import { FormField } from '../../Components/FormField';
 import { Button } from '../../Components/ui/button';
-import type { SharedProps } from '../../Types';
-export default function Profile() {
-  const { auth } = usePage<SharedProps>().props;
-  const form = useForm({ name: auth.user?.name ?? '', email: auth.user?.email ?? '' });
+export default function Profile({ profile }: { profile: { name: string; email: string } }) {
+  const form = useForm(profile);
   return (
     <AppLayout title="Profile">
       <Head title="Profile" />

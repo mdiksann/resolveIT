@@ -10,7 +10,7 @@ return [
     'email' => 'email',
     // Normalize strings before Fortify without coercing malformed input.
     'lowercase_usernames' => false,
-    'home' => '/dashboard',
+    'home' => '/',
     'prefix' => '',
     'domain' => null,
     'middleware' => ['web', NormalizeAuthEmail::class, 'throttle:auth-write'],

@@ -22,7 +22,7 @@ class AuthenticationTest extends TestCase
 
     public function test_registration_normalizes_input_and_cannot_assign_admin(): void
     {
-        $this->post('/register', ['name' => '  New User  ', 'email' => 'NEW@example.test', 'password' => 'long-test-password', 'password_confirmation' => 'long-test-password', 'role' => 'ADMIN'])->assertRedirect('/dashboard');
+        $this->post('/register', ['name' => '  New User  ', 'email' => 'NEW@example.test', 'password' => 'long-test-password', 'password_confirmation' => 'long-test-password', 'role' => 'ADMIN'])->assertRedirect('/');
         $user = User::where('email', 'new@example.test')->firstOrFail();
         $this->assertSame('New User', $user->name);
         $this->assertSame(Role::Employee, $user->role);
@@ -63,7 +63,7 @@ class AuthenticationTest extends TestCase
         $user = User::factory()->create();
         $this->get('/login');
         $before = session()->getId();
-        $this->post('/login', ['email' => ' '.strtoupper($user->email).' ', 'password' => 'password'])->assertRedirect('/dashboard');
+        $this->post('/login', ['email' => ' '.strtoupper($user->email).' ', 'password' => 'password'])->assertRedirect('/');
         $this->assertAuthenticatedAs($user);
         $this->assertNotSame($before, session()->getId());
         $this->post('/logout')->assertRedirect('/');

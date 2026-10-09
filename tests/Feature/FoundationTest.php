@@ -15,7 +15,7 @@ class FoundationTest extends TestCase
 
     public function test_authenticated_dashboard_is_a_product_placeholder(): void
     {
-        $this->actingAs(User::factory()->create())->get('/dashboard')->assertOk()->assertInertia(fn (Assert $page) => $page->component('Dashboard')->missing('database')->missing('environment')->where('appName', 'ResolveIT')->where('auth.canAccessAdmin', false));
+        $this->actingAs(User::factory()->create(['role' => Role::Agent]))->get('/dashboard')->assertOk()->assertInertia(fn (Assert $page) => $page->component('Dashboard')->missing('database')->missing('environment')->where('appName', 'ResolveIT')->where('auth.canAccessAdmin', false));
     }
 
     public function test_regular_users_cannot_access_admin(): void
@@ -27,7 +27,7 @@ class FoundationTest extends TestCase
     {
         $user = User::factory()->create();
         $user->forceFill(['role' => Role::Admin])->save();
-        $this->actingAs($user)->get('/admin')->assertOk();
+        $this->actingAs($user)->get('/admin')->assertRedirect('/admin/users');
     }
 
     public function test_profile_updates_validate_normalize_and_ignore_role(): void

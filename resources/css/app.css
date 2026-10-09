@@ -2,16 +2,20 @@
 @source '../js';
 @source '../views';
 @theme {
-  --color-background: #fafafa;
-  --color-foreground: #18181b;
+  --color-background: #f8f9fc;
+  --color-foreground: #211b35;
   --color-surface: #ffffff;
-  --color-muted: #f4f4f5;
-  --color-muted-foreground: #52525b;
-  --color-border: #d4d4d8;
-  --color-primary: #1d4ed8;
+  --color-muted: #f3f2f7;
+  --color-muted-foreground: #625c70;
+  --color-border: #e5e2ec;
+  --color-primary: #7028d8;
   --color-primary-foreground: #ffffff;
   --color-destructive: #b91c1c;
-  --radius-control: 0.375rem;
+  --color-control-border: #8b8798;
+  --color-primary-hover: #5d20b5;
+  --color-primary-soft: #f3ecff;
+  --radius-panel: 0.75rem;
+  --radius-control: 0.5rem;
 }
 @layer base {
   body {

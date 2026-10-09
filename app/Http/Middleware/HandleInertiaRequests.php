@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Category;
+use App\Models\Priority;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -11,10 +14,20 @@ class HandleInertiaRequests extends Middleware
 
     public function share(Request $request): array
     {
+        $user = $request->user();
+
         return [...parent::share($request),
             'appName' => config('app.name'),
-            'auth' => ['user' => $request->user()?->only('id', 'name', 'email', 'role'),
-                'canAccessAdmin' => $request->user()?->can('access-admin') ?? false],
+            'auth' => [
+                'user' => $user?->only('id', 'name', 'role'),
+                'canAccessAdmin' => $user?->can('access-admin') ?? false,
+                'can' => [
+                    'viewAnyTicket' => $user?->can('manage-tickets') ?? false,
+                    'manageCategories' => $user?->can('viewAny', Category::class) ?? false,
+                    'managePriorities' => $user?->can('viewAny', Priority::class) ?? false,
+                    'manageUsers' => $user?->can('viewAny', User::class) ?? false,
+                ],
+            ],
             'flash' => fn () => collect(['success', 'error', 'warning', 'info'])->mapWithKeys(fn ($key) => [$key => $request->session()->get($key)])->all(),
         ];
     }

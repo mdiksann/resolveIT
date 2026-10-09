@@ -13,9 +13,9 @@ export default function AppLayout({ title, children }: { title: string; children
   const { appName, auth } = usePage<SharedProps>().props;
   const { url } = usePage();
   const navigation = [
-    { href: '/dashboard', label: 'Dashboard' },
+    ...(auth.can.viewAnyTicket ? [{ href: '/dashboard', label: 'Dashboard' }] : []),
     { href: '/settings/profile', label: 'Profile' },
-    ...(auth.canAccessAdmin ? [{ href: '/admin', label: 'Administration' }] : []),
+    ...(auth.can.manageUsers ? [{ href: '/admin/users', label: 'Users' }] : []),
   ];
   return (
     <div className="min-h-screen md:grid md:grid-cols-[220px_1fr]">
@@ -40,7 +40,7 @@ export default function AppLayout({ title, children }: { title: string; children
           ))}
         </nav>
       </aside>
-      <div>
+      <div className="min-w-0">
         <header className="flex min-h-16 items-center justify-between border-b border-border bg-surface px-5">
           <span className="text-sm text-muted-foreground">{title}</span>
           <DropdownMenu>

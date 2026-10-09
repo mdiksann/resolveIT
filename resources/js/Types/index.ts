@@ -13,12 +13,40 @@ export type TicketEvent =
 export interface User {
   id: number;
   name: string;
-  email: string;
   role: Role;
 }
 export interface SharedProps {
   [key: string]: unknown;
   appName: string;
-  auth: { user: User | null; canAccessAdmin: boolean };
+  auth: {
+    user: User | null;
+    canAccessAdmin: boolean;
+    can: {
+      viewAnyTicket: boolean;
+      manageCategories: boolean;
+      managePriorities: boolean;
+      manageUsers: boolean;
+    };
+  };
   flash: Partial<Record<'success' | 'error' | 'warning' | 'info', string>>;
+}
+
+export interface AdminUser extends User {
+  email: string;
+  requested_tickets_count: number;
+  assigned_tickets_count: number;
+}
+export interface Paginated<T> {
+  data: T[];
+  current_page: number;
+  last_page: number;
+  from: number | null;
+  to: number | null;
+  total: number;
+  prev_page_url: string | null;
+  next_page_url: string | null;
+}
+export interface RoleOption {
+  value: Role;
+  label: string;
 }

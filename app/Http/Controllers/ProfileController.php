@@ -15,7 +15,7 @@ class ProfileController extends Controller
     {
         Gate::authorize('update', $request->user());
 
-        return Inertia::render('Settings/Profile');
+        return Inertia::render('Settings/Profile', ['profile' => $request->user()->only('name', 'email')]);
     }
 
     public function update(UpdateProfileRequest $request): RedirectResponse

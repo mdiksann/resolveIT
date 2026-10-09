@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -24,6 +25,10 @@ class CreateNewUser implements CreatesNewUsers
             'password' => ['required', 'string', Password::defaults(), 'confirmed'],
         ])->validate();
 
-        return User::create($validated);
+        $user = new User($validated);
+        $user->role = Role::Employee;
+        $user->save();
+
+        return $user;
     }
 }
