@@ -47,13 +47,7 @@ class TicketPolicy
                 && in_array($target, [TicketStatus::InProgress, TicketStatus::Closed], true);
         }
 
-        return in_array($target, match ($ticket->status) {
-            TicketStatus::Open => [TicketStatus::Assigned, TicketStatus::InProgress],
-            TicketStatus::Assigned => [TicketStatus::InProgress],
-            TicketStatus::InProgress => [TicketStatus::Resolved],
-            TicketStatus::Resolved => [TicketStatus::InProgress, TicketStatus::Closed],
-            TicketStatus::Closed => [],
-        }, true);
+        return in_array($target, $ticket->availableTransitions(), true);
     }
 
     public function comment(User $user, Ticket $ticket): bool

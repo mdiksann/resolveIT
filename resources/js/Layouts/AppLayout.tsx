@@ -13,6 +13,8 @@ export default function AppLayout({ title, children }: { title: string; children
   const { appName, auth } = usePage<SharedProps>().props;
   const { url } = usePage();
   const navigation = [
+    { href: '/tickets', label: auth.can.viewAnyTicket ? 'Ticket queue' : 'My tickets' },
+    { href: '/tickets/create', label: 'New ticket' },
     ...(auth.can.viewAnyTicket ? [{ href: '/dashboard', label: 'Dashboard' }] : []),
     { href: '/settings/profile', label: 'Profile' },
     ...(auth.can.manageUsers ? [{ href: '/admin/users', label: 'Users' }] : []),
@@ -42,7 +44,7 @@ export default function AppLayout({ title, children }: { title: string; children
       </aside>
       <div className="min-w-0">
         <header className="flex min-h-16 items-center justify-between border-b border-border bg-surface px-5">
-          <span className="text-sm text-muted-foreground">{title}</span>
+          <span className="min-w-0 truncate text-sm text-muted-foreground">{title}</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary">{auth.user?.name}</Button>
@@ -56,7 +58,7 @@ export default function AppLayout({ title, children }: { title: string; children
           </DropdownMenu>
         </header>
         <main id="main" tabIndex={-1} className="mx-auto max-w-5xl space-y-6 p-5 md:p-8">
-          <h1 className="text-2xl font-semibold">{title}</h1>
+          <h1 className="break-words text-2xl font-semibold">{title}</h1>
           <FlashMessages />
           {children}
         </main>

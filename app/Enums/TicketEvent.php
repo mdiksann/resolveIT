@@ -5,6 +5,7 @@ namespace App\Enums;
 enum TicketEvent: string
 {
     case Created = 'created';
+    case Updated = 'updated';
     case StatusChanged = 'status_changed';
     case Assigned = 'assigned';
     case Unassigned = 'unassigned';
@@ -18,6 +19,7 @@ enum TicketEvent: string
     {
         return match ($this) {
             self::Created => 'Created',
+            self::Updated => 'Updated',
             self::StatusChanged => 'Status changed',
             self::Assigned => 'Assigned',
             self::Unassigned => 'Unassigned',

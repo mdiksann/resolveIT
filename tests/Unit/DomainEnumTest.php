@@ -24,7 +24,7 @@ class DomainEnumTest extends TestCase
 
     public function test_ticket_event_values_and_labels(): void
     {
-        $this->assertSame(['created', 'status_changed', 'assigned', 'unassigned', 'priority_changed', 'category_changed', 'commented', 'attachment_added', 'attachment_removed'], array_column(TicketEvent::cases(), 'value'));
-        $this->assertSame(['Created', 'Status changed', 'Assigned', 'Unassigned', 'Priority changed', 'Category changed', 'Commented', 'Attachment added', 'Attachment removed'], array_map(fn (TicketEvent $event) => $event->label(), TicketEvent::cases()));
+        $this->assertSame(['created', 'updated', 'status_changed', 'assigned', 'unassigned', 'priority_changed', 'category_changed', 'commented', 'attachment_added', 'attachment_removed'], array_column(TicketEvent::cases(), 'value'));
+        $this->assertSame(['Created', 'Updated', 'Status changed', 'Assigned', 'Unassigned', 'Priority changed', 'Category changed', 'Commented', 'Attachment added', 'Attachment removed'], array_map(fn (TicketEvent $event) => $event->label(), TicketEvent::cases()));
     }
 }

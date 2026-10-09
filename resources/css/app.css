@@ -38,3 +38,14 @@
     animation-duration: 0.01ms !important;
   }
 }
+@theme {
+  --color-info: #075985;
+  --color-info-soft: #eaf6fc;
+  --color-success: #166534;
+  --color-success-soft: #edf8f0;
+  --color-warning: #854d0e;
+  --color-warning-soft: #fff7e6;
+  --color-destructive-soft: #fef2f2;
+  --color-overlay: rgba(33, 27, 53, 0.32);
+  --shadow-dialog: 0 12px 32px rgba(33, 27, 53, 0.16);
+}
