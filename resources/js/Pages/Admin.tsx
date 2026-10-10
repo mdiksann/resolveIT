@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import AppLayout from '../Layouts/AppLayout';
 import { FormField } from '../Components/FormField';
 import { Button } from '../Components/ui/button';
+import { EmptyState } from '../Components/EmptyState';
 import { Table, TableCell, TableHead } from '../Components/ui/table';
 import type { AdminUser, Paginated, RoleOption, SharedProps } from '../Types';
 
@@ -130,15 +131,14 @@ export default function Admin({ users, roles }: Props) {
       )}
       <section aria-label="Users" aria-busy={loading}>
         {users.data.length === 0 ? (
-          <div className="space-y-2 py-6">
-            <h2 className="text-base font-semibold">No users on this page</h2>
-            <p className="text-sm text-muted-foreground">
-              Return to the first page to view accounts.
-            </p>
-            <Link href="/admin/users" className="text-sm text-primary underline">
-              View first page
-            </Link>
-          </div>
+          <EmptyState
+            title="No users on this page"
+            description="Return to the first page to view user accounts."
+            action={{
+              label: 'View first page',
+              href: '/admin/users',
+            }}
+          />
         ) : (
           <div className="overflow-hidden rounded-panel border border-border bg-surface">
             <Table aria-label="User accounts" className="min-w-[700px]">
