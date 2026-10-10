@@ -5,6 +5,7 @@ import { FormErrors } from '../../Components/FormErrors';
 import { Button } from '../../Components/ui/button';
 import { Table, TableHead, TableCell } from '../../Components/ui/table';
 import { ConfigurationPagination } from '../../Components/ConfigurationPagination';
+import { EmptyState } from '../../Components/EmptyState';
 import { useRequestFeedback } from '../../Lib/useRequestFeedback';
 import type { AdminCategory, Paginated } from '../../Types';
 function CategoryRow({ category }: { category: AdminCategory }) {
@@ -122,9 +123,14 @@ export default function Categories({ categories }: { categories: Paginated<Admin
           </Table>
         </div>
       ) : (
-        <p className="text-sm text-muted-foreground">
-          No categories on this page. Create one above or return to the first page.
-        </p>
+        <EmptyState
+          title="No categories on this page"
+          description="Create a category above or return to the first page to view configured categories."
+          action={{
+            label: 'View first page',
+            href: '/admin/categories',
+          }}
+        />
       )}
       <ConfigurationPagination page={categories} label="Categories" />
     </AppLayout>
