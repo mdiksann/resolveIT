@@ -53,13 +53,13 @@ class FoundationTest extends TestCase
 
     public function test_unknown_page_has_friendly_404(): void
     {
-        $this->get('/missing')->assertNotFound()->assertInertia(fn (Assert $page) => $page->component('Error')->where('status', 404));
+        $this->get('/missing')->assertNotFound()->assertInertia(fn (Assert $page) => $page->component('Errors/404')->where('status', 404));
     }
 
     public function test_production_errors_do_not_expose_internal_messages(): void
     {
         config(['app.debug' => false]);
         Route::middleware('web')->get('/test-error', fn () => throw new \RuntimeException('private-database-detail'));
-        $this->get('/test-error')->assertStatus(500)->assertDontSee('private-database-detail')->assertInertia(fn (Assert $page) => $page->component('Error')->where('status', 500));
+        $this->get('/test-error')->assertStatus(500)->assertDontSee('private-database-detail')->assertInertia(fn (Assert $page) => $page->component('Errors/500')->where('status', 500));
     }
 }
