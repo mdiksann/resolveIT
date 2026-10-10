@@ -74,4 +74,3 @@ class AppShellNavigationTest extends TestCase
         $this->assertGuest();
     }
 }
-

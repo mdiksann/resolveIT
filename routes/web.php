@@ -9,14 +9,17 @@ use App\Http\Controllers\TicketCommentController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    if (! auth()->check()) {
-        return redirect()->route('login');
+    if (auth()->check()) {
+        return redirect()->route(auth()->user()->can('manage-tickets') ? 'dashboard' : 'profile.edit');
     }
 
-    return redirect()->route(auth()->user()->can('manage-tickets') ? 'dashboard' : 'profile.edit');
+    return Inertia::render('Landing');
 })->name('home');
+
+Route::get('/landing', fn () => Inertia::render('Landing'))->name('landing');
 Route::middleware('auth')->group(function (): void {
     Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
     Route::get('/tickets/create', [TicketController::class, 'create'])->name('tickets.create');
@@ -35,6 +38,7 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/settings/password', [ProfileController::class, 'updatePassword'])->middleware('throttle:6,1')->name('profile.password.update');
     Route::prefix('admin')->name('admin.')->middleware('can:administer')->group(function (): void {
         Route::get('/', fn () => redirect()->route('admin.users.index'))->name('index');
         Route::get('/priorities', [PriorityController::class, 'index'])->name('priorities.index');

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-labelledby="title">
+  <title id="title">ResolveIT</title>
+  <rect width="32" height="32" rx="7" fill="#800080" />
+  <path fill="#fff" d="M6 8h8v4h-2v8h2v4H6v-4h2v-8H6Zm10 0h10v4h-3v12h-4V12h-3Z" />
+</svg>

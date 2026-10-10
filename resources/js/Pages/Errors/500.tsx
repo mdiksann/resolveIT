@@ -16,4 +16,3 @@ export default function ServerError({ incidentId }: { incidentId?: string }) {
     </ErrorLayout>
   );
 }
-

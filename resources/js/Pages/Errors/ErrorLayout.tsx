@@ -47,4 +47,3 @@ export function ErrorLayout({ status, title, description, children }: ErrorLayou
     </div>
   );
 }
-

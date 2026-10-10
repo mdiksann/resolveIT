@@ -48,7 +48,8 @@ class RouteGuardTest extends TestCase
 
     public function test_home_redirects_to_an_area_the_user_can_access(): void
     {
-        $this->get('/')->assertRedirect('/login');
+        $this->get('/')->assertOk();
+        $this->get('/landing')->assertOk();
         foreach (Role::cases() as $role) {
             $this->actingAs(User::factory()->create(['role' => $role]));
             $this->get('/')->assertRedirect($role === Role::Employee ? '/settings/profile' : '/dashboard');

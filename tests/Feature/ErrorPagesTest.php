@@ -75,4 +75,3 @@ class ErrorPagesTest extends TestCase
                 ->where('status', 503));
     }
 }
-

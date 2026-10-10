@@ -175,7 +175,7 @@ export default function AppLayout({ title, children }: { title: string; children
   ];
 
   return (
-    <div className="min-h-screen bg-background md:grid md:grid-cols-[224px_1fr]">
+    <div className="min-h-screen bg-background md:grid md:grid-cols-[240px_1fr]">
       <Head title={title} />
       {navigating && (
         <div
@@ -193,15 +193,12 @@ export default function AppLayout({ title, children }: { title: string; children
       >
         Skip to content
       </a>
-      <aside className="border-b border-border bg-surface p-4 md:min-h-screen md:border-r md:border-b-0">
-        <div className="mb-6 px-3">
+      <aside className="border-b border-border bg-surface p-4 md:sticky md:top-0 md:h-screen md:overflow-y-auto md:border-r md:border-b-0 md:pt-6">
+        <div className="mb-8 px-3">
           <Link
             href="/"
-            className="flex items-center gap-2 text-base font-semibold text-foreground"
+            className="inline-flex min-h-11 items-center text-[28px] leading-none font-extrabold tracking-[-0.07em] text-brand"
           >
-            <span className="flex size-7 items-center justify-center rounded-control bg-primary text-xs font-bold text-primary-foreground">
-              R
-            </span>
             <span>{appName}</span>
           </Link>
         </div>
@@ -213,9 +210,9 @@ export default function AppLayout({ title, children }: { title: string; children
                 key={href}
                 href={href}
                 aria-current={active ? 'page' : undefined}
-                className={`flex min-h-11 items-center gap-2 rounded-control px-3 py-2 text-sm transition-colors md:min-h-10 ${
+                className={`flex min-h-11 items-center gap-3 rounded-full px-4 py-2 text-sm transition-colors ${
                   active
-                    ? 'bg-primary-soft font-medium text-primary'
+                    ? 'bg-primary-soft font-semibold text-primary'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                 }`}
               >
@@ -236,9 +233,9 @@ export default function AppLayout({ title, children }: { title: string; children
                       key={href}
                       href={href}
                       aria-current={active ? 'page' : undefined}
-                      className={`flex min-h-11 items-center gap-2 rounded-control px-3 py-2 text-sm transition-colors md:min-h-10 ${
+                      className={`flex min-h-11 items-center gap-3 rounded-full px-4 py-2 text-sm transition-colors ${
                         active
-                          ? 'bg-primary-soft font-medium text-primary'
+                          ? 'bg-primary-soft font-semibold text-primary'
                           : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                       }`}
                     >
@@ -254,16 +251,16 @@ export default function AppLayout({ title, children }: { title: string; children
       </aside>
 
       <div className="flex min-w-0 flex-col">
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-border bg-surface px-5 md:px-8">
+        <header className="flex h-20 shrink-0 items-center justify-between gap-4 border-b border-border bg-surface px-5 md:px-8">
           <span className="min-w-0 truncate text-sm font-medium text-foreground">{title}</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="secondary"
-                className="min-h-11 gap-2 text-sm md:min-h-10"
+                className="min-h-11 max-w-[65%] gap-2 rounded-full px-5 text-sm"
                 aria-label={`User menu for ${auth.user?.name ?? 'Account'}`}
               >
-                <span>{auth.user?.name}</span>
+                <span className="truncate">{auth.user?.name}</span>
                 <svg
                   aria-hidden="true"
                   viewBox="0 0 20 20"
@@ -286,7 +283,7 @@ export default function AppLayout({ title, children }: { title: string; children
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() => router.post('/logout')}
-                className="text-destructive focus:text-destructive"
+                className="mt-1 border-t border-border text-destructive focus:bg-destructive-soft focus:text-destructive"
               >
                 Log out
               </DropdownMenuItem>
@@ -295,7 +292,9 @@ export default function AppLayout({ title, children }: { title: string; children
         </header>
 
         <main id="main" tabIndex={-1} className="min-w-0 flex-1 space-y-6 p-4 md:p-8">
-          <h1 className="break-words text-2xl font-semibold text-foreground">{title}</h1>
+          <h1 className="break-words text-3xl font-bold tracking-[-0.04em] text-foreground">
+            {title}
+          </h1>
           <FlashMessages />
           {children}
         </main>

@@ -1,13 +1,23 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import AuthLayout from '../../Layouts/AuthLayout';
+import PublicAuthLayout from '../../Layouts/PublicAuthLayout';
+import { usePublicLanguage } from '../../Lib/usePublicLanguage';
 import { FormField } from '../../Components/FormField';
 import { Button } from '../../Components/ui/button';
 import { Alert } from '../../Components/ui/alert';
 export default function Login({ status }: { status?: string }) {
+  const { language, setLanguage, t } = usePublicLanguage();
   const form = useForm({ email: '', password: '', remember: false });
   return (
-    <AuthLayout title="Log in">
-      <Head title="Log in" />
+    <PublicAuthLayout
+      language={language}
+      setLanguage={setLanguage}
+      title={t('Welcome back.', 'Selamat datang kembali.')}
+      description={t(
+        'Log in to keep your requests moving.',
+        'Masuk untuk melanjutkan penanganan tiket Anda.',
+      )}
+    >
+      <Head title={t('Log in', 'Masuk')} />
       {status && <Alert>{status}</Alert>}
       <form
         className="space-y-5"
@@ -32,7 +42,7 @@ export default function Login({ status }: { status?: string }) {
         />
         <FormField
           id="password"
-          label="Password"
+          label={t('Password', 'Kata sandi')}
           type="password"
           autoComplete="current-password"
           required
@@ -46,18 +56,18 @@ export default function Login({ status }: { status?: string }) {
             checked={form.data.remember}
             onChange={(event) => form.setData('remember', event.target.checked)}
           />
-          Remember me
+          {t('Remember me', 'Ingat saya')}
         </label>
         <Link href="/forgot-password" className="block py-2 text-sm text-primary underline">
-          Forgot password?
+          {t('Forgot password?', 'Lupa kata sandi?')}
         </Link>
         <Button type="submit" className="w-full" disabled={form.processing}>
-          {form.processing ? 'Please wait…' : 'Log in'}
+          {form.processing ? t('Please wait…', 'Mohon tunggu…') : t('Log in', 'Masuk')}
         </Button>
       </form>
       <Link href="/register" className="py-2 text-sm text-primary underline">
-        Create an account
+        {t('Create an account', 'Buat akun baru')}
       </Link>
-    </AuthLayout>
+    </PublicAuthLayout>
   );
 }
