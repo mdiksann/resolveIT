@@ -1,5 +1,5 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PublicLayout from '../Layouts/PublicLayout';
 import { usePublicLanguage } from '../Lib/usePublicLanguage';
 import type { SharedProps } from '../Types';
@@ -8,6 +8,47 @@ export default function Landing() {
   const { language, setLanguage, t } = usePublicLanguage();
   const { auth } = usePage<SharedProps>().props;
   const [email, setEmail] = useState('');
+  const mainRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const main = mainRef.current;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!main || motion.matches || !('IntersectionObserver' in window)) return;
+
+    const targets = main.querySelectorAll<HTMLElement>('[data-scroll-reveal]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+          if (!isIntersecting) return;
+          target.classList.remove('public-reveal-pending');
+          observer.unobserve(target);
+        });
+      },
+      { threshold: 0.08 },
+    );
+    targets.forEach((target) => {
+      if (target.getBoundingClientRect().top < window.innerHeight) return;
+      target.classList.add('public-reveal-pending');
+      observer.observe(target);
+    });
+    const showAll = () => {
+      observer.disconnect();
+      targets.forEach((target) => target.classList.remove('public-reveal-pending'));
+    };
+    const revealFocused = (event: FocusEvent) => {
+      if (!(event.target instanceof Element)) return;
+      const target = event.target.closest('[data-scroll-reveal]');
+      if (!target) return;
+      target.classList.remove('public-reveal-pending');
+      observer.unobserve(target);
+    };
+    motion.addEventListener('change', showAll);
+    main.addEventListener('focusin', revealFocused);
+    return () => {
+      showAll();
+      motion.removeEventListener('change', showAll);
+      main.removeEventListener('focusin', revealFocused);
+    };
+  }, []);
   const appHref = auth.can.viewAnyTicket ? '/dashboard' : '/tickets';
   const faqs = [
     {
@@ -64,7 +105,7 @@ export default function Landing() {
           )}
         />
       </Head>
-      <main id="main-content" tabIndex={-1}>
+      <main id="main-content" tabIndex={-1} ref={mainRef}>
         <div className="public-announcement">
           {t(
             'Built for the people who keep work moving.',
@@ -140,7 +181,7 @@ export default function Landing() {
           </div>
         </section>
 
-        <section id="why-resolveit" className="public-benefits public-container">
+        <section id="why-resolveit" className="public-benefits public-container" data-scroll-reveal>
           <div className="public-benefits-intro">
             <h2>{t('Less chasing. More resolving.', 'Lebih terarah. Lebih cepat ditangani.')}</h2>
             <p>
@@ -183,7 +224,7 @@ export default function Landing() {
         </section>
 
         <section className="public-story">
-          <div className="public-container public-story-grid">
+          <div className="public-container public-story-grid" data-scroll-reveal>
             <img
               src="/images/team-collaboration.jpg"
               alt={t(
@@ -212,7 +253,7 @@ export default function Landing() {
           </div>
         </section>
 
-        <section id="faq" className="public-faq public-container">
+        <section id="faq" className="public-faq public-container" data-scroll-reveal>
           <h2>{t('A few things to know.', 'Hal yang perlu Anda tahu.')}</h2>
           <div className="public-faq-list">
             {faqs.map(({ question, answer }) => (
@@ -228,7 +269,7 @@ export default function Landing() {
         </section>
 
         <section className="public-final-cta">
-          <div className="public-container">
+          <div className="public-container" data-scroll-reveal>
             <h2>{t('Your next fix starts here.', 'Mulai langkah menuju solusi.')}</h2>
             <p>
               {t(

@@ -67,6 +67,20 @@
 }
 
 /* Public pages share the application brand palette. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.public-site) {
+    scroll-behavior: smooth;
+  }
+  .public-site [data-scroll-reveal] {
+    transition:
+      opacity 500ms ease,
+      transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .public-site .public-reveal-pending {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
 .public-site {
   --color-background: #fff;
   --public-accent-soft: var(--color-overview);
@@ -84,7 +98,7 @@
   text-wrap: balance;
 }
 .public-container {
-  width: min(1184px, calc(100% - 64px));
+  width: min(1184px, calc(100% - clamp(40px, 6vw, 96px)));
   margin-inline: auto;
 }
 .public-skip {
@@ -106,10 +120,10 @@
   border-bottom: 1px solid var(--color-border);
 }
 .public-header-inner {
-  min-height: 88px;
+  min-height: 72px;
   max-width: 1440px;
   margin: auto;
-  padding: 16px 48px;
+  padding: 12px 48px;
   display: flex;
   align-items: center;
   gap: 60px;
@@ -186,7 +200,7 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 6px 16px;
-  padding: 15px 24px;
+  padding: 12px 24px;
   background: var(--public-accent-soft);
   font-size: 14px;
   text-align: center;
@@ -197,31 +211,31 @@
   text-underline-offset: 4px;
 }
 .public-hero {
-  padding-block: 64px 80px;
+  padding-block: clamp(28px, 4svh, 48px) clamp(40px, 6svh, 64px);
 }
 .public-hero-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 64px);
   align-items: center;
 }
 .public-kicker {
   font-size: 16px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .public-hero h1 {
-  font-size: clamp(48px, 5.1vw, 76px);
+  font-size: clamp(40px, min(4.6vw, 8svh), 64px);
   max-width: 560px;
 }
 .public-lead {
-  margin-top: 24px;
+  margin-top: 20px;
   max-width: 440px;
   font-size: 18px;
   color: var(--color-muted-foreground);
 }
 .public-signup-form {
-  margin-top: 32px;
+  margin-top: 24px;
   max-width: 405px;
 }
 .public-signup-form label {
@@ -258,7 +272,7 @@
 }
 .public-hero-photo {
   position: relative;
-  height: 600px;
+  height: clamp(360px, calc(100svh - 240px), 500px);
   border-radius: 12px;
   overflow: hidden;
   background: var(--public-accent-soft);
@@ -281,7 +295,7 @@
   font-weight: 600;
 }
 .public-benefits {
-  padding-block: 52px 100px;
+  padding-block: 40px 80px;
   scroll-margin-top: 110px;
 }
 .public-benefits-intro {
@@ -321,7 +335,7 @@
 }
 .public-story-grid {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   gap: 80px;
   align-items: center;
 }
@@ -527,9 +541,6 @@
   .public-auth-grid {
     gap: 40px;
   }
-  .public-hero-photo {
-    height: 560px;
-  }
   .public-benefit-columns {
     gap: 24px;
   }
@@ -577,7 +588,7 @@
     gap: 40px;
   }
   .public-hero h1 {
-    font-size: clamp(44px, 9vw, 64px);
+    font-size: clamp(38px, 8.5vw, 56px);
   }
   .public-lead {
     font-size: 17px;
@@ -586,7 +597,7 @@
     max-width: none;
   }
   .public-hero-photo {
-    height: 460px;
+    height: clamp(280px, 70vw, 420px);
   }
   .public-photo-caption {
     font-size: 15px;

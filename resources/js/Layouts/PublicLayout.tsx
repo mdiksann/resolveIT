@@ -12,7 +12,9 @@ export default function PublicLayout({
   setLanguage: (language: PublicLanguage) => void;
   children: ReactNode;
 }) {
-  const { appName, auth } = usePage<SharedProps>().props;
+  const { props, url } = usePage<SharedProps>();
+  const { appName, auth } = props;
+  const landingPath = ['/', '/landing'].includes(url.split(/[?#]/)[0]) ? '' : '/landing';
   const t = (en: string, id: string) => (language === 'en' ? en : id);
   return (
     <div className="public-site" lang={language}>
@@ -29,8 +31,8 @@ export default function PublicLayout({
             {appName}
           </Link>
           <nav className="public-nav" aria-label={t('Main navigation', 'Navigasi utama')}>
-            <a href="/landing#why-resolveit">{t('For IT teams', 'Untuk tim IT')}</a>
-            <a href="/landing#faq">FAQ</a>
+            <a href={`${landingPath}#why-resolveit`}>{t('For IT teams', 'Untuk tim IT')}</a>
+            <a href={`${landingPath}#faq`}>FAQ</a>
           </nav>
           <div className="public-header-actions">
             <select
@@ -76,7 +78,7 @@ export default function PublicLayout({
           <nav aria-label={t('Footer navigation', 'Navigasi footer')}>
             <Link href="/register">{t('Create an account', 'Buat akun')}</Link>
             <Link href="/login">{t('Log in', 'Masuk')}</Link>
-            <a href="/landing#faq">FAQ</a>
+            <a href={`${landingPath}#faq`}>FAQ</a>
           </nav>
           <small>
             © {new Date().getFullYear()} {appName}
