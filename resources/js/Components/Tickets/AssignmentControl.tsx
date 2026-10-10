@@ -76,7 +76,7 @@ export function AssignmentControl({
               })
             }
           >
-            Unassign
+            {other.processing ? 'Unassigning…' : 'Unassign'}
           </Button>
         )}
       </div>
