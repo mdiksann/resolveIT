@@ -5,6 +5,7 @@ import { FormErrors } from '../../Components/FormErrors';
 import { Button } from '../../Components/ui/button';
 import { Table, TableHead, TableCell } from '../../Components/ui/table';
 import { ConfigurationPagination } from '../../Components/ConfigurationPagination';
+import { EmptyState } from '../../Components/EmptyState';
 import { useRequestFeedback } from '../../Lib/useRequestFeedback';
 import type { AdminPriority, Paginated } from '../../Types';
 function PriorityRow({ priority }: { priority: AdminPriority }) {
@@ -115,7 +116,7 @@ function PriorityRow({ priority }: { priority: AdminPriority }) {
                   })
                 }
               >
-                Deactivate
+                {action.processing ? 'Deactivating…' : 'Deactivate'}
               </Button>
             </>
           )}
@@ -218,9 +219,14 @@ export default function Priorities({ priorities }: { priorities: Paginated<Admin
           </Table>
         </div>
       ) : (
-        <p className="text-sm text-muted-foreground">
-          No priorities on this page. Create one above or return to the first page.
-        </p>
+        <EmptyState
+          title="No priorities on this page"
+          description="Create a priority above or return to the first page to view configured priorities."
+          action={{
+            label: 'View first page',
+            href: '/admin/priorities',
+          }}
+        />
       )}
       <ConfigurationPagination page={priorities} label="Priorities" />
     </AppLayout>
