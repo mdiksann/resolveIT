@@ -1,3 +1,11 @@
+# Current validation (2026-10-10)
+
+TASK-031 through TASK-036 are verified in [TASK-031-036-VALIDATION.md](TASK-031-036-VALIDATION.md). The full PostgreSQL suite, static checks, production build and two consecutive headless browser passes are green. Setup and database isolation are documented in [TESTING.md](TESTING.md).
+
+The older environment blockers below are historical. PostgreSQL and loopback browser testing now work with the required sandbox access; Docker runtime and hosted GitHub Actions remain outside this ticket scope.
+
+---
+
 # Validation status
 
 Checked after dependencies were installed on 2026-10-05. Both Composer and npm lockfiles are now present. The resolved framework is Laravel 13.34.0, tested on PHP 8.5.11 and Node 24.21.0. Locked PHP dependencies require PHP 8.4.1 or newer; Docker and CI use the PHP 8.4 release line.

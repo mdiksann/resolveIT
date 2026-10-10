@@ -40,3 +40,8 @@ image.png
 push.sh
 UI_GUIDELINES.md
 STARTER_GUIDE.md
+# Browser test sessions, reports and isolated Laravel storage
+/playwright/.auth/
+/playwright-report/
+/test-results/
+/storage/e2e/

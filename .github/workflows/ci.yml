@@ -46,8 +46,24 @@ jobs:
       - run: cp .env.example .env
       - run: php artisan key:generate
       - run: composer lint
+      - run: composer test
+      - run: npm run test:unit
       - run: npm run lint
       - run: npm run format:check
       - run: npm run typecheck
-      - run: composer test
       - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Create dedicated E2E database
+        run: psql -h 127.0.0.1 -U starter -d postgres -c 'CREATE DATABASE resolveit_e2e'
+        env:
+          PGPASSWORD: ci-only-password
+      - name: Headless E2E (two consecutive runs, no retries)
+        run: npm run test:e2e -- --repeat-each=2 --retries=0
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-failures
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

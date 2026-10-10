@@ -21,6 +21,10 @@ test('absolute formatting uses the configured timezone, including daylight savin
 test('relative due dates and durations use an explicit reference and correct boundaries', () => {
   const reference = '2026-01-01T00:00:00Z';
   assert.equal(formatRelativeDue(reference, reference), 'Due now');
+  assert.equal(formatRelativeDue('2026-01-01T00:00:01Z', reference), 'Due in less than a minute');
+  assert.equal(formatRelativeDue('2025-12-31T23:59:59Z', reference), 'Due less than a minute ago');
+  assert.equal(formatRelativeDue('2026-01-01T00:01:00Z', reference), 'Due in 1 minute');
+  assert.equal(formatRelativeDue('2026-01-02T00:00:00Z', reference), 'Due in 1 day');
   assert.equal(formatRelativeDue('2026-01-01T02:00:00Z', reference), 'Due in 2 hours');
   assert.equal(formatRelativeDue('2025-12-31T23:00:00Z', reference), 'Due 1 hour ago');
   assert.equal(durationFrom('2025-12-30T00:00:00Z', reference), '2 days');

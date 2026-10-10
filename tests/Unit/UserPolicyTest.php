@@ -28,6 +28,22 @@ class UserPolicyTest extends TestCase
         $this->assertFalse($policy->update($actor, $other));
     }
 
+    #[DataProvider('roles')]
+    public function test_self_role_changes_require_admin(Role $role, bool $allowed): void
+    {
+        $actor = new User;
+        $actor->id = 1;
+        $actor->role = $role;
+        $policy = new UserPolicy;
+        $this->assertSame($allowed, $policy->changeRole($actor, $actor, Role::Admin));
+        if ($role === Role::Admin) {
+            // Self-demotion errors use Laravel validation; covered by UserRoleManagementTest.
+            $this->assertTrue($policy->changeRole($actor, $actor));
+        } else {
+            $this->assertFalse($policy->changeRole($actor, $actor, Role::Employee));
+        }
+    }
+
     public static function roles(): array
     {
         return [[Role::Employee, false], [Role::Agent, false], [Role::Admin, true]];

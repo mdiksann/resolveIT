@@ -8,3 +8,7 @@ package-lock.json
 *.php
 *.blade.php
 .env*
+
+playwright-report
+test-results
+playwright/.auth

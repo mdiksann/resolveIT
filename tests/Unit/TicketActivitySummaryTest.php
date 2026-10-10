@@ -13,6 +13,11 @@ class TicketActivitySummaryTest extends TestCase
     {
         $cases = [
             [TicketEvent::Created, [], 'Created ticket'],
+            [TicketEvent::Updated, [], 'Updated ticket details'],
+            [TicketEvent::StatusChanged, [], 'Status: Unknown → Unknown'],
+            [TicketEvent::Assigned, ['from_name' => null, 'to_name' => 'Agent'], 'Assignment: None → Agent'],
+            [TicketEvent::AttachmentAdded, [], 'Added attachment: File'],
+            [TicketEvent::AttachmentRemoved, [], 'Removed attachment: File'],
             [TicketEvent::Updated, ['fields' => ['title', 'description']], 'Updated title and description'],
             [TicketEvent::StatusChanged, ['from' => TicketStatus::Open->value, 'to' => TicketStatus::Assigned->value], 'Status: Open → Assigned'],
             [TicketEvent::Assigned, ['from_name' => 'Alex', 'to_name' => 'Sam'], 'Assignment: Alex → Sam'],

@@ -11,6 +11,8 @@ export default ts.config(
       'public/build/**',
       'storage/**',
       'bootstrap/cache/**',
+      'playwright-report/**',
+      'test-results/**',
     ],
   },
   js.configs.recommended,
