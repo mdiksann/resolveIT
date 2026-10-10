@@ -3,6 +3,7 @@ import { DueDate } from '../Components/Tickets/DueDate';
 import AppLayout from '../Layouts/AppLayout';
 import { Table, TableCell, TableHead } from '../Components/ui/table';
 import { StatusBadge, PriorityBadge } from '../Components/Tickets/Badges';
+import { EmptyState } from '../Components/EmptyState';
 import { ConfigurationPagination } from '../Components/ConfigurationPagination';
 import type { DashboardProps } from '../Types';
 export default function Dashboard({
@@ -148,9 +149,14 @@ export default function Dashboard({
             </Table>
           </div>
         ) : (
-          <p className="py-4 text-sm text-muted-foreground">
-            You have no open assignments on this page.
-          </p>
+          <EmptyState
+            title="No open assignments"
+            description="You have no open assignments on this page."
+            action={{
+              label: 'View ticket queue',
+              href: '/tickets',
+            }}
+          />
         )}
         <ConfigurationPagination page={assignments} label="Assignments" />
       </section>
