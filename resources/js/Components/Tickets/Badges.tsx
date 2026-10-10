@@ -13,7 +13,8 @@ const colors: Record<TicketStatus, string> = {
   RESOLVED: 'bg-success-soft text-success',
   CLOSED: 'bg-muted text-muted-foreground',
 };
-const badge = 'inline-flex rounded-md px-2 py-1 text-xs font-medium';
+const badge =
+  'inline-flex items-center rounded-badge px-2 py-1 text-xs leading-[18px] font-medium whitespace-nowrap';
 export function StatusBadge({ status }: { status: TicketStatus }) {
   return <span className={`${badge} ${colors[status]}`}>{labels[status]}</span>;
 }
