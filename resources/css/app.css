@@ -73,17 +73,77 @@
   }
   .public-site [data-scroll-reveal] {
     transition:
-      opacity 500ms ease,
-      transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+      opacity 700ms ease,
+      transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .public-site .public-reveal-pending {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(48px);
+  }
+  /* Keep fragment targets stationary while their content animates. */
+  .public-site .public-benefits.public-reveal-pending,
+  .public-site .public-faq.public-reveal-pending {
+    transform: none;
+  }
+  .public-benefits > *,
+  .public-faq > *,
+  .public-benefit-columns > div,
+  .public-story-grid > * {
+    transition:
+      opacity 700ms ease,
+      transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .public-benefits.public-reveal-pending > *,
+  .public-faq.public-reveal-pending > * {
+    transform: translateY(48px);
+  }
+  .public-benefit-columns > div:nth-child(2),
+  .public-story-grid > :nth-child(2) {
+    transition-delay: 140ms;
+  }
+  .public-benefit-columns > div:nth-child(3) {
+    transition-delay: 280ms;
+  }
+  .public-reveal-pending .public-benefit-columns > div {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  .public-story-grid.public-reveal-pending > :first-child {
+    transform: translateX(-32px) scale(0.96);
+  }
+  .public-story-grid.public-reveal-pending > :nth-child(2) {
+    transform: translateX(32px);
+  }
+  .public-hero-copy > * {
+    animation: public-enter 850ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .public-hero-copy > :nth-child(2) {
+    animation-delay: 100ms;
+  }
+  .public-hero-copy > :nth-child(3) {
+    animation-delay: 200ms;
+  }
+  .public-hero-copy > :nth-child(4) {
+    animation-delay: 300ms;
+  }
+  .public-hero-photo {
+    animation: public-enter 1000ms cubic-bezier(0.16, 1, 0.3, 1) 180ms both;
+  }
+  @keyframes public-enter {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 .public-site {
   --color-background: #fff;
   --public-accent-soft: var(--color-overview);
+  --public-gutter: clamp(20px, 4vw, 64px);
   background: #fff;
   color: var(--color-foreground);
   font-family: 'Manrope', Arial, Helvetica, sans-serif;
@@ -98,7 +158,9 @@
   text-wrap: balance;
 }
 .public-container {
-  width: min(1184px, calc(100% - clamp(40px, 6vw, 96px)));
+  width: 100%;
+  max-width: 1600px;
+  padding-inline: var(--public-gutter);
   margin-inline: auto;
 }
 .public-skip {
@@ -121,9 +183,9 @@
 }
 .public-header-inner {
   min-height: 72px;
-  max-width: 1440px;
+  max-width: 1600px;
   margin: auto;
-  padding: 12px 48px;
+  padding: 12px var(--public-gutter);
   display: flex;
   align-items: center;
   gap: 60px;
@@ -211,6 +273,9 @@
   text-underline-offset: 4px;
 }
 .public-hero {
+  display: grid;
+  align-items: center;
+  min-height: calc(100svh - 117px);
   padding-block: clamp(28px, 4svh, 48px) clamp(40px, 6svh, 64px);
 }
 .public-hero-grid {
@@ -226,17 +291,17 @@
 }
 .public-hero h1 {
   font-size: clamp(40px, min(4.6vw, 8svh), 64px);
-  max-width: 560px;
+  max-width: 660px;
 }
 .public-lead {
   margin-top: 20px;
-  max-width: 440px;
+  max-width: 520px;
   font-size: 18px;
   color: var(--color-muted-foreground);
 }
 .public-signup-form {
   margin-top: 24px;
-  max-width: 405px;
+  max-width: 460px;
 }
 .public-signup-form label {
   display: block;
@@ -272,7 +337,7 @@
 }
 .public-hero-photo {
   position: relative;
-  height: clamp(360px, calc(100svh - 240px), 500px);
+  height: clamp(360px, calc(100svh - 220px), 580px);
   border-radius: 12px;
   overflow: hidden;
   background: var(--public-accent-soft);
@@ -330,6 +395,7 @@
   font-size: 16px;
 }
 .public-story {
+  overflow: clip;
   background: var(--public-accent-soft);
   padding-block: 80px;
 }
@@ -534,7 +600,6 @@
 @media (max-width: 1050px) {
   .public-header-inner {
     gap: 32px;
-    padding-inline: 32px;
   }
   .public-hero-grid,
   .public-story-grid,
@@ -546,8 +611,8 @@
   }
 }
 @media (max-width: 760px) {
-  .public-container {
-    width: calc(100% - 40px);
+  .public-site {
+    --public-gutter: 20px;
   }
   .public-header-inner {
     min-height: 76px;
@@ -579,6 +644,7 @@
     font-size: 13px;
   }
   .public-hero {
+    min-height: 0;
     padding-block: 40px 56px;
   }
   .public-hero-grid,
@@ -650,6 +716,9 @@
   }
 }
 @media (max-width: 390px) {
+  .public-site {
+    --public-gutter: 16px;
+  }
   .public-header-inner {
     padding-inline: 16px;
     gap: 8px;

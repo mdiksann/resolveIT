@@ -23,10 +23,10 @@ export default function Landing() {
           observer.unobserve(target);
         });
       },
-      { threshold: 0.08 },
+      { threshold: 0.08, rootMargin: '0px 0px -10% 0px' },
     );
     targets.forEach((target) => {
-      if (target.getBoundingClientRect().top < window.innerHeight) return;
+      if (target.getBoundingClientRect().top < window.innerHeight * 0.8) return;
       target.classList.add('public-reveal-pending');
       observer.observe(target);
     });
