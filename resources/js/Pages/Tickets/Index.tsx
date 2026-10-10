@@ -4,6 +4,7 @@ import { DueDate } from '../../Components/Tickets/DueDate';
 import AppLayout from '../../Layouts/AppLayout';
 import { FormField } from '../../Components/FormField';
 import { FormErrors } from '../../Components/FormErrors';
+import { EmptyState } from '../../Components/EmptyState';
 import { Button } from '../../Components/ui/button';
 import { StatusBadge, PriorityBadge } from '../../Components/Tickets/Badges';
 import type {
@@ -161,14 +162,30 @@ export default function Index({
       </p>
       <div aria-busy={busy}>
         {!tickets.data.length ? (
-          <div className="p-6">
-            <h2 className="font-semibold">
-              {Object.values(filters).some(Boolean)
+          <EmptyState
+            title={
+              Object.values(filters).some(Boolean)
                 ? 'No tickets match these filters'
-                : 'No tickets yet'}
-            </h2>
-            <p className="text-sm text-muted-foreground">Submitted IT requests will appear here.</p>
-          </div>
+                : 'No tickets yet'
+            }
+            description={
+              Object.values(filters).some(Boolean)
+                ? 'Try adjusting or clearing your filters to see more tickets.'
+                : 'Submitted IT requests will appear here.'
+            }
+            action={
+              Object.values(filters).some(Boolean)
+                ? {
+                    label: 'Clear filters',
+                    onClick: () => visit(true),
+                    disabled: busy,
+                  }
+                : {
+                    label: 'New ticket',
+                    href: '/tickets/create',
+                  }
+            }
+          />
         ) : (
           <div
             role="region"
